@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const scrollToSection = (id: string) => {
@@ -16,7 +16,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-2">
             <img src={logo} alt="AiCounting" className="h-10" />
           </div>
-          
+
           <div className="hidden md:flex items-center space-x-8">
             <button
               onClick={() => scrollToSection("benefits")}

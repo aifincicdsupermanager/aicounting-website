@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 
@@ -22,6 +21,7 @@ const upcomingModules = [
 
 const SignupForm = () => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -32,11 +32,17 @@ const SignupForm = () => {
     aiFeatures: "",
     featureRequests: "",
     questions: "",
+    website: "", // honeypot anti-spam field
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (field: string, value: string) =>
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (formData.website) return; // bots fill this hidden field
+
     if (!formData.fullName || !formData.email) {
       toast({
         title: "Missing required fields",
@@ -46,12 +52,47 @@ const SignupForm = () => {
       return;
     }
 
-    toast({
-      title: "Thank you for your interest!",
-      description: "We'll be in touch shortly to get you started.",
-    });
-    
-    console.log("Form submitted:", formData);
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch("https://formspree.io/f/mrbonjww", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        toast({
+          title: "Thank you for your interest!",
+          description: "We’ve received your submission and will be in touch.",
+        });
+        setFormData({
+          fullName: "",
+          email: "",
+          contactNumber: "",
+          companyName: "",
+          interest: "",
+          excitedModule: "",
+          aiFeatures: "",
+          featureRequests: "",
+          questions: "",
+          website: "",
+        });
+      } else {
+        throw new Error("Network response not ok");
+      }
+    } catch {
+      toast({
+        title: "Submission error",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -72,18 +113,28 @@ const SignupForm = () => {
 
           <Card className="p-8">
             <form onSubmit={handleSubmit} className="space-y-8">
+              {/* Honeypot hidden field */}
+              <input
+                type="text"
+                name="website"
+                value={formData.website}
+                onChange={(e) => handleChange("website", e.target.value)}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
+              {/* Quick Signup */}
               <div className="space-y-6">
-                <h3 className="font-heading text-2xl font-semibold text-primary">
-                  Quick Signup
-                </h3>
-                
+                <h3 className="font-heading text-2xl font-semibold text-primary">Quick Signup</h3>
+
                 <div className="space-y-2">
                   <Label htmlFor="fullName">Full name *</Label>
                   <Input
                     id="fullName"
                     required
                     value={formData.fullName}
-                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    onChange={(e) => handleChange("fullName", e.target.value)}
                   />
                 </div>
 
@@ -94,7 +145,7 @@ const SignupForm = () => {
                     type="email"
                     required
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) => handleChange("email", e.target.value)}
                   />
                 </div>
 
@@ -104,7 +155,7 @@ const SignupForm = () => {
                     id="contactNumber"
                     type="tel"
                     value={formData.contactNumber}
-                    onChange={(e) => setFormData({ ...formData, contactNumber: e.target.value })}
+                    onChange={(e) => handleChange("contactNumber", e.target.value)}
                   />
                 </div>
 
@@ -113,46 +164,34 @@ const SignupForm = () => {
                   <Input
                     id="companyName"
                     value={formData.companyName}
-                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                    onChange={(e) => handleChange("companyName", e.target.value)}
                   />
                 </div>
               </div>
 
+              {/* Understand Your Needs */}
               <div className="space-y-6">
-                <h3 className="font-heading text-2xl font-semibold text-primary">
-                  Understand Your Needs
-                </h3>
+                <h3 className="font-heading text-2xl font-semibold text-primary">Understand Your Needs</h3>
 
                 <div className="space-y-3">
                   <Label>Which areas are you most interested in?</Label>
                   <RadioGroup
                     value={formData.interest}
-                    onValueChange={(value) => setFormData({ ...formData, interest: value })}
+                    onValueChange={(val) => handleChange("interest", val)}
                   >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="bookkeeping" id="bookkeeping" />
-                      <Label htmlFor="bookkeeping" className="font-normal cursor-pointer">
-                        Bookkeeping/Compliance Reporting (e.g. BAS, Tax Return)
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="advisory" id="advisory" />
-                      <Label htmlFor="advisory" className="font-normal cursor-pointer">
-                        Advisory (e.g. Tax Planning, and other value-added advisory)
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="all" id="all" />
-                      <Label htmlFor="all" className="font-normal cursor-pointer">
-                        All of the above
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="others" id="others" />
-                      <Label htmlFor="others" className="font-normal cursor-pointer">
-                        Others
-                      </Label>
-                    </div>
+                    {[
+                      { value: "bookkeeping", label: "Bookkeeping/Compliance Reporting (e.g. BAS, Tax Return)" },
+                      { value: "advisory", label: "Advisory (e.g. Tax Planning, and other value-added advisory)" },
+                      { value: "all", label: "All of the above" },
+                      { value: "others", label: "Others" },
+                    ].map((opt) => (
+                      <div key={opt.value} className="flex items-center space-x-2">
+                        <RadioGroupItem value={opt.value} id={opt.value} />
+                        <Label htmlFor={opt.value} className="font-normal cursor-pointer">
+                          {opt.label}
+                        </Label>
+                      </div>
+                    ))}
                   </RadioGroup>
                 </div>
 
@@ -160,13 +199,13 @@ const SignupForm = () => {
                   <Label>Which upcoming module are you most excited about?</Label>
                   <RadioGroup
                     value={formData.excitedModule}
-                    onValueChange={(value) => setFormData({ ...formData, excitedModule: value })}
+                    onValueChange={(val) => handleChange("excitedModule", val)}
                   >
-                    {upcomingModules.map((module) => (
-                      <div key={module} className="flex items-center space-x-2">
-                        <RadioGroupItem value={module.toLowerCase()} id={module.toLowerCase()} />
-                        <Label htmlFor={module.toLowerCase()} className="font-normal cursor-pointer">
-                          {module}
+                    {upcomingModules.map((mod) => (
+                      <div key={mod} className="flex items-center space-x-2">
+                        <RadioGroupItem value={mod.toLowerCase()} id={mod.toLowerCase()} />
+                        <Label htmlFor={mod.toLowerCase()} className="font-normal cursor-pointer">
+                          {mod}
                         </Label>
                       </div>
                     ))}
@@ -175,13 +214,13 @@ const SignupForm = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="aiFeatures">
-                    What AI-related features would you like to see? Or what problems would you like us to explore where AI could help?
+                    What AI-related features would you like to see?
                   </Label>
                   <Textarea
                     id="aiFeatures"
                     rows={4}
                     value={formData.aiFeatures}
-                    onChange={(e) => setFormData({ ...formData, aiFeatures: e.target.value })}
+                    onChange={(e) => handleChange("aiFeatures", e.target.value)}
                   />
                 </div>
 
@@ -193,7 +232,7 @@ const SignupForm = () => {
                     id="featureRequests"
                     rows={4}
                     value={formData.featureRequests}
-                    onChange={(e) => setFormData({ ...formData, featureRequests: e.target.value })}
+                    onChange={(e) => handleChange("featureRequests", e.target.value)}
                   />
                 </div>
 
@@ -203,7 +242,7 @@ const SignupForm = () => {
                     id="questions"
                     rows={4}
                     value={formData.questions}
-                    onChange={(e) => setFormData({ ...formData, questions: e.target.value })}
+                    onChange={(e) => handleChange("questions", e.target.value)}
                   />
                 </div>
               </div>
@@ -211,9 +250,10 @@ const SignupForm = () => {
               <Button
                 type="submit"
                 size="lg"
+                disabled={isSubmitting}
                 className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-lg"
               >
-                Submit Registration
+                {isSubmitting ? "Submitting..." : "Submit Registration"}
               </Button>
             </form>
           </Card>

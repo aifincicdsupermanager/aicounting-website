@@ -42,10 +42,21 @@ const Benefits = () => {
           <h2 className="font-heading text-4xl md:text-5xl font-semibold text-primary mb-6">
             Built for bookkeepers, accountants and businesses
           </h2>
-          <p className="text-xl text-foreground/80 max-w-3xl mx-auto leading-relaxed">
-            Saving hours. Empowering better and faster advice. Driving real benefits for businesses with multiple branches or entities.
-          </p>
-          <p className="text-lg text-foreground/70 mt-4 max-w-2xl mx-auto">
+          <div className="space-y-3 flex flex-col items-center">
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
+              <p className="font-heading text-xl font-semibold text-primary">Saving hours.</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
+              <p className="font-heading text-xl font-semibold text-primary">Empowering better and faster advice.</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
+              <p className="font-heading text-xl font-semibold text-primary">Driving real benefits for businesses with multiple branches or entities.</p>
+            </div>
+          </div>
+          <p className="text-lg text-foreground/70 mt-12 max-w-2xl mx-auto">
             Start using AiCounting today – see how it helps you transfer from process- and admin-heavy work to smarter, insight-led advisory.
           </p>
         </div>

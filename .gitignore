@@ -26,3 +26,5 @@ dist-ssr
 # Ignore backup folders everywhere
 **/backup*/
 **/Backup*/
+**/0\ backup/
+**/0*backup*/

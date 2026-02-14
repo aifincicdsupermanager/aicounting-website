@@ -25,12 +25,6 @@ const PageTracking = () => {
   return null;
 };
 
-declare global {
-  interface Window {
-    gtag: (...args: unknown[]) => void;
-  }
-}
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>

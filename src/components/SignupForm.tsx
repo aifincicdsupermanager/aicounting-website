@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,6 +23,7 @@ const SignupForm = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
+    lead_id: "",
     fullName: "",
     email: "",
     contactNumber: "",
@@ -33,7 +34,120 @@ const SignupForm = () => {
     featureRequests: "",
     questions: "",
     website: "", // honeypot anti-spam field
+
+    // Last-touch
+    utm_source: "",
+    utm_medium: "",
+    utm_campaign: "",
+
+    // First-touch
+    first_utm_source: "",
+    first_utm_medium: "",
+    first_utm_campaign: "",
   });
+
+  const getOrCreateLeadId = () => {
+    const existing = localStorage.getItem("lead_id");
+    if (existing) return existing;
+
+    const newId =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : Date.now().toString(36) +
+        "-" +
+        Math.random().toString(36).substring(2, 10);
+
+    localStorage.setItem("lead_id", newId);
+    return newId;
+  };
+
+  const submission_id =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : Date.now().toString(36) +
+      "-" +
+      Math.random().toString(36).substring(2, 10);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const lead_id = getOrCreateLeadId();
+    const url_source = params.get("utm_source");
+    const url_medium = params.get("utm_medium");
+    const url_campaign = params.get("utm_campaign");
+
+    // -----------------------------
+    // LAST TOUCH
+    // -----------------------------
+    let utm_source =
+      url_source || localStorage.getItem("utm_source") || "";
+
+    let utm_medium =
+      url_medium || localStorage.getItem("utm_medium") || "";
+
+    const utm_campaign =
+      url_campaign || localStorage.getItem("utm_campaign") || "";
+
+    // -----------------------------
+    // REFERRER FALLBACK
+    // -----------------------------
+    if (!utm_source) {
+      const referrer = document.referrer;
+
+      if (/google\./i.test(referrer)) {
+        utm_source = "google";
+        if (!utm_medium) utm_medium = "organic";
+      } else if (referrer) {
+        utm_source = "referral";
+        if (!utm_medium) utm_medium = "referral";
+      } else {
+        utm_source = "direct";
+        if (!utm_medium) utm_medium = "none";
+      }
+    }
+
+    // -----------------------------
+    // SAVE FIRST TOUCH (only once)
+    // -----------------------------
+    if (!localStorage.getItem("first_utm_source") && url_source) {
+      localStorage.setItem("first_utm_source", url_source);
+    }
+
+    if (!localStorage.getItem("first_utm_medium") && url_medium) {
+      localStorage.setItem("first_utm_medium", url_medium);
+    }
+
+    if (!localStorage.getItem("first_utm_campaign") && url_campaign) {
+      localStorage.setItem("first_utm_campaign", url_campaign);
+    }
+
+    // -----------------------------
+    // SAVE LAST TOUCH
+    // -----------------------------
+    if (utm_source) localStorage.setItem("utm_source", utm_source);
+    if (utm_medium) localStorage.setItem("utm_medium", utm_medium);
+    if (utm_campaign) localStorage.setItem("utm_campaign", utm_campaign);
+
+    // -----------------------------
+    // READ FIRST TOUCH
+    // -----------------------------
+    const first_utm_source = localStorage.getItem("first_utm_source") || "";
+    const first_utm_medium = localStorage.getItem("first_utm_medium") || "";
+    const first_utm_campaign = localStorage.getItem("first_utm_campaign") || "";
+
+    // -----------------------------
+    // UPDATE STATE
+    // -----------------------------
+    setFormData((prev) => ({
+      ...prev,
+      lead_id,
+      utm_source,
+      utm_medium,
+      utm_campaign,
+      first_utm_source,
+      first_utm_medium,
+      first_utm_campaign,
+    }));
+  }, []);
 
   const handleChange = (field: string, value: string) =>
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -55,21 +169,70 @@ const SignupForm = () => {
     setIsSubmitting(true);
 
     try {
+      const lead_id = getOrCreateLeadId();
       const res = await fetch("https://formspree.io/f/mrbonjww", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          lead_id,
+          submission_id,
+          submitted_at: new Date().toISOString(),
+        }),
       });
 
       if (res.ok) {
+        // Basic lead tracking
+        if (typeof window !== "undefined" && typeof window.gtag === "function") {
+          window.gtag("event", "generate_lead", {
+            event_category: "engagement",
+            event_label: "signup_form",
+            lead_id,
+            submission_id,
+            utm_source: formData.utm_source,
+            utm_medium: formData.utm_medium,
+            utm_campaign: formData.utm_campaign,
+            first_utm_source: formData.first_utm_source,
+            first_utm_medium: formData.first_utm_medium,
+            first_utm_campaign: formData.first_utm_campaign,
+          });
+        }
+
+        // Qualified lead tracking
+        let score = 0;
+
+        if (formData.companyName?.trim()) score += 2;
+        if (formData.interest === "advisory") score += 2;
+        if (formData.interest === "all") score += 1;
+        if (formData.featureRequests?.trim()) score += 1;
+        if (formData.aiFeatures?.trim()) score += 1;
+
+        const isQualified = score >= 3;
+
+        if (isQualified && typeof window !== "undefined" && typeof window.gtag === "function") {
+          window.gtag("event", "qualified_lead", {
+            event_category: "engagement",
+            event_label: "signup_form",
+            lead_id,
+            utm_source: formData.utm_source,
+            utm_medium: formData.utm_medium,
+            utm_campaign: formData.utm_campaign,
+            first_utm_source: formData.first_utm_source,
+            first_utm_medium: formData.first_utm_medium,
+            first_utm_campaign: formData.first_utm_campaign,
+            lead_score: score,
+          });
+        }
+
         toast({
           title: "Thank you for your interest!",
           description: "We’ve received your submission and will be in touch.",
         });
-        setFormData({
+        setFormData((prev) => ({
+          ...prev,
           fullName: "",
           email: "",
           contactNumber: "",
@@ -80,7 +243,7 @@ const SignupForm = () => {
           featureRequests: "",
           questions: "",
           website: "",
-        });
+        }));
       } else {
         throw new Error("Network response not ok");
       }

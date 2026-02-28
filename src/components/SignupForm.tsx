@@ -28,11 +28,6 @@ const SignupForm = () => {
     email: "",
     contactNumber: "",
     companyName: "",
-    interest: "",
-    excitedModule: "",
-    aiFeatures: "",
-    featureRequests: "",
-    questions: "",
     website: "", // honeypot anti-spam field
 
     // Last-touch
@@ -108,16 +103,16 @@ const SignupForm = () => {
     // -----------------------------
     // SAVE FIRST TOUCH (only once)
     // -----------------------------
-    if (!localStorage.getItem("first_utm_source") && url_source) {
-      localStorage.setItem("first_utm_source", url_source);
+    if (!localStorage.getItem("first_utm_source")) {
+      localStorage.setItem("first_utm_source", utm_source);
     }
 
-    if (!localStorage.getItem("first_utm_medium") && url_medium) {
-      localStorage.setItem("first_utm_medium", url_medium);
+    if (!localStorage.getItem("first_utm_medium")) {
+      localStorage.setItem("first_utm_medium", utm_medium);
     }
 
-    if (!localStorage.getItem("first_utm_campaign") && url_campaign) {
-      localStorage.setItem("first_utm_campaign", url_campaign);
+    if (!localStorage.getItem("first_utm_campaign")) {
+      localStorage.setItem("first_utm_campaign", utm_campaign);
     }
 
     // -----------------------------
@@ -201,18 +196,7 @@ const SignupForm = () => {
           });
         }
 
-        // Qualified lead tracking
-        let score = 0;
-
-        if (formData.companyName?.trim()) score += 2;
-        if (formData.interest === "advisory") score += 2;
-        if (formData.interest === "all") score += 1;
-        if (formData.featureRequests?.trim()) score += 1;
-        if (formData.aiFeatures?.trim()) score += 1;
-
-        const isQualified = score >= 3;
-
-        if (isQualified && typeof window !== "undefined" && typeof window.gtag === "function") {
+        if (typeof window !== "undefined" && typeof window.gtag === "function") {
           window.gtag("event", "qualified_lead", {
             event_category: "engagement",
             event_label: "signup_form",
@@ -223,13 +207,12 @@ const SignupForm = () => {
             first_utm_source: formData.first_utm_source,
             first_utm_medium: formData.first_utm_medium,
             first_utm_campaign: formData.first_utm_campaign,
-            lead_score: score,
           });
         }
 
         toast({
           title: "Thank you for your interest!",
-          description: "We’ve received your submission and will be in touch.",
+          description: "We've received your submission and will be in touch.",
         });
         setFormData((prev) => ({
           ...prev,
@@ -237,11 +220,6 @@ const SignupForm = () => {
           email: "",
           contactNumber: "",
           companyName: "",
-          interest: "",
-          excitedModule: "",
-          aiFeatures: "",
-          featureRequests: "",
-          questions: "",
           website: "",
         }));
       } else {
@@ -259,18 +237,16 @@ const SignupForm = () => {
   };
 
   return (
-    <section id="signup" className="py-20 bg-muted/30">
+    <section id="signup" className="py-20">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-heading text-4xl md:text-5xl font-semibold text-primary mb-6">
-              Shape the future of accounting with us
+              Get started with AiCounting
             </h2>
             <p className="text-xl text-foreground/80">
-              Enter your details below—we'll be in touch shortly to get you started or schedule a demo.
-            </p>
-            <p className="text-lg text-foreground/70 mt-4">
-              Want to influence what's coming next? Let us know what matters most to you.
+              Start running payroll with Beam and connect your accounting in one system. <br />
+              From $10/month. No per-employee pricing.
             </p>
           </div>
 
@@ -289,22 +265,24 @@ const SignupForm = () => {
 
               {/* Quick Signup */}
               <div className="space-y-6">
-                <h3 className="font-heading text-2xl font-semibold text-primary">Quick Signup</h3>
+                <h3 className="font-heading text-2xl font-semibold text-primary">Your details</h3>
 
-                <div className="space-y-2">
-                  <Label htmlFor="fullName">Full name *</Label>
+                <div className="space-y-3">
+                  <Label htmlFor="fullName" className="text-base font-medium">Full name *</Label>
                   <Input
                     id="fullName"
+                    className="h-12 text-base"
                     required
                     value={formData.fullName}
                     onChange={(e) => handleChange("fullName", e.target.value)}
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
+                <div className="space-y-3">
+                  <Label htmlFor="email" className="text-base font-medium">Email *</Label>
                   <Input
                     id="email"
+                    className="h-12 text-base"
                     type="email"
                     required
                     value={formData.email}
@@ -312,100 +290,24 @@ const SignupForm = () => {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="contactNumber">Contact Number (Optional)</Label>
+                <div className="space-y-3">
+                  <Label htmlFor="contactNumber" className="text-base font-medium">Contact number (optional for faster follow-up)</Label>
                   <Input
                     id="contactNumber"
+                    className="h-12 text-base"
                     type="tel"
                     value={formData.contactNumber}
                     onChange={(e) => handleChange("contactNumber", e.target.value)}
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="companyName">Company name (Optional)</Label>
+                <div className="space-y-3">
+                  <Label htmlFor="companyName" className="text-base font-medium">Company name (optional)</Label>
                   <Input
                     id="companyName"
+                    className="h-12 text-base"
                     value={formData.companyName}
                     onChange={(e) => handleChange("companyName", e.target.value)}
-                  />
-                </div>
-              </div>
-
-              {/* Understand Your Needs */}
-              <div className="space-y-6">
-                <h3 className="font-heading text-2xl font-semibold text-primary">Understand Your Needs</h3>
-
-                <div className="space-y-3">
-                  <Label>Which areas are you most interested in?</Label>
-                  <RadioGroup
-                    value={formData.interest}
-                    onValueChange={(val) => handleChange("interest", val)}
-                  >
-                    {[
-                      { value: "bookkeeping", label: "Bookkeeping/Compliance Reporting (e.g. BAS, Tax Return)" },
-                      { value: "advisory", label: "Advisory (e.g. Tax Planning, and other value-added advisory)" },
-                      { value: "all", label: "All of the above" },
-                      { value: "others", label: "Others" },
-                    ].map((opt) => (
-                      <div key={opt.value} className="flex items-center space-x-2">
-                        <RadioGroupItem value={opt.value} id={opt.value} />
-                        <Label htmlFor={opt.value} className="font-normal cursor-pointer">
-                          {opt.label}
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                </div>
-
-                <div className="space-y-3">
-                  <Label>Which upcoming module are you most excited about?</Label>
-                  <RadioGroup
-                    value={formData.excitedModule}
-                    onValueChange={(val) => handleChange("excitedModule", val)}
-                  >
-                    {upcomingModules.map((mod) => (
-                      <div key={mod} className="flex items-center space-x-2">
-                        <RadioGroupItem value={mod.toLowerCase()} id={mod.toLowerCase()} />
-                        <Label htmlFor={mod.toLowerCase()} className="font-normal cursor-pointer">
-                          {mod}
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="aiFeatures">
-                    What AI-related features would you like to see?
-                  </Label>
-                  <Textarea
-                    id="aiFeatures"
-                    rows={4}
-                    value={formData.aiFeatures}
-                    onChange={(e) => handleChange("aiFeatures", e.target.value)}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="featureRequests">
-                    Any feature requests or challenges you'd love us to solve?
-                  </Label>
-                  <Textarea
-                    id="featureRequests"
-                    rows={4}
-                    value={formData.featureRequests}
-                    onChange={(e) => handleChange("featureRequests", e.target.value)}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="questions">Any questions for our team?</Label>
-                  <Textarea
-                    id="questions"
-                    rows={4}
-                    value={formData.questions}
-                    onChange={(e) => handleChange("questions", e.target.value)}
                   />
                 </div>
               </div>
@@ -416,8 +318,11 @@ const SignupForm = () => {
                 disabled={isSubmitting}
                 className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-lg"
               >
-                {isSubmitting ? "Submitting..." : "Submit Registration"}
+                {isSubmitting ? "Submitting..." : "Get started"}
               </Button>
+              <p className="text-sm text-foreground/60 text-center mt-3">
+                No spam. We'll only contact you about AiCounting.
+              </p>
             </form>
           </Card>
         </div>

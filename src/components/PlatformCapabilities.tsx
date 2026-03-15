@@ -83,7 +83,7 @@ const PlatformCapabilities = () => {
                             <div className="mt-auto border-t border-border/40 pt-5">
 
                                 <p className="text-xs font-semibold uppercase tracking-widest text-foreground/30 mb-2">
-                                    In development
+                                    In development — one of many
                                 </p>
 
                                 <h4 className="text-base font-semibold text-primary mb-1.5">
@@ -98,7 +98,7 @@ const PlatformCapabilities = () => {
                                     onClick={scrollToPartner}
                                     className="text-sm font-semibold text-[#00A58C] hover:text-[#00A58C]/70 transition-colors inline-flex items-center gap-1"
                                 >
-                                    Explore other capabilities with us →
+                                    Help shape what gets built →
                                 </button>
 
                             </div>

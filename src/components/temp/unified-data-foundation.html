@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unified Data Foundation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #080c10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    overflow: hidden;
+  }
+
+  .scene {
+    position: relative;
+    width: 520px;
+    height: 520px;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* Block styles */
+  .block rect {
+    rx: 6;
+    ry: 6;
+  }
+
+  /* Glow filter */
+  .glow-line {
+    filter: drop-shadow(0 0 6px rgba(99, 210, 255, 0.7));
+  }
+
+  .glow-block {
+    filter: drop-shadow(0 0 10px rgba(99, 210, 255, 0.4));
+  }
+
+  .foundation-glow {
+    filter: drop-shadow(0 0 20px rgba(99, 210, 255, 0.6));
+  }
+
+  /* Animations */
+  @keyframes floatBlock {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @keyframes pulseLine {
+    0%, 100% { stroke-opacity: 0.3; }
+    50% { stroke-opacity: 1; }
+  }
+
+  @keyframes slideIn {
+    0% { stroke-dashoffset: 300; }
+    100% { stroke-dashoffset: 0; }
+  }
+
+  @keyframes fadeInScale {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  .block-1 { animation: floatBlock 3.2s ease-in-out infinite; }
+  .block-2 { animation: floatBlock 3.8s ease-in-out infinite 0.5s; }
+  .block-3 { animation: floatBlock 2.9s ease-in-out infinite 1s; }
+  .block-4 { animation: floatBlock 3.5s ease-in-out infinite 0.3s; }
+
+  .conv-line {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 0;
+    animation: pulseLine 2.5s ease-in-out infinite;
+  }
+
+  .conv-line-1 { animation-delay: 0s; }
+  .conv-line-2 { animation-delay: 0.4s; }
+  .conv-line-3 { animation-delay: 0.8s; }
+  .conv-line-4 { animation-delay: 1.2s; }
+
+  .foundation { animation: shimmer 3s ease-in-out infinite; }
+
+  .particle {
+    animation: slideIn 2s ease-in-out infinite;
+  }
+
+  .label-main {
+    font-family: 'IBM Plex Mono', monospace;
+    fill: #63d2ff;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .label-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    fill: rgba(99, 210, 255, 0.45);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .block-label {
+    font-family: 'IBM Plex Mono', monospace;
+    fill: rgba(180, 230, 255, 0.5);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-anchor: middle;
+  }
+</style>
+</head>
+<body>
+<div class="scene">
+<svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Main glow filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="strongGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Gradient for blocks -->
+    <linearGradient id="blockGrad1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a2a3a"/>
+      <stop offset="100%" stop-color="#0d1a28"/>
+    </linearGradient>
+
+    <linearGradient id="blockGrad2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a2433"/>
+      <stop offset="100%" stop-color="#0d1620"/>
+    </linearGradient>
+
+    <!-- Foundation gradient -->
+    <linearGradient id="foundationGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0d2235" stop-opacity="0.9"/>
+      <stop offset="30%" stop-color="#0f3050" stop-opacity="1"/>
+      <stop offset="50%" stop-color="#0d3d66" stop-opacity="1"/>
+      <stop offset="70%" stop-color="#0f3050" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0d2235" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- Line gradient -->
+    <linearGradient id="lineGrad1" x1="0" y1="1" x2="1" y2="0" gradientUnits="userSpaceOnUse"
+                    x1="90" y1="330" x2="90" y2="130">
+      <stop offset="0%" stop-color="#63d2ff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#63d2ff" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Radial bg glow -->
+    <radialGradient id="bgGlow" cx="50%" cy="60%" r="45%">
+      <stop offset="0%" stop-color="#0a2040" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#080c10" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Particle gradient flowing down lines -->
+    <linearGradient id="particleGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#63d2ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#63d2ff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#63d2ff" stop-opacity="0"/>
+    </linearGradient>
+
+    <marker id="arrowTip" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#63d2ff" opacity="0.8"/>
+    </marker>
+  </defs>
+
+  <!-- Background radial glow -->
+  <ellipse cx="260" cy="320" rx="230" ry="190" fill="url(#bgGlow)"/>
+
+  <!-- Grid dots background -->
+  <g opacity="0.06">
+    <pattern id="grid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="1" fill="#63d2ff"/>
+    </pattern>
+    <rect width="520" height="520" fill="url(#grid)"/>
+  </g>
+
+  <!-- ============ CONVERGING LINES ============ -->
+
+  <!-- Line from Block 1 (far left) to foundation -->
+  <line class="conv-line conv-line-1" x1="92" y1="150" x2="188" y2="358"
+        stroke="#63d2ff" stroke-width="1.5" stroke-opacity="0.5"
+        filter="url(#glow)"/>
+
+  <!-- Line from Block 2 -->
+  <line class="conv-line conv-line-2" x1="190" y1="150" x2="230" y2="358"
+        stroke="#63d2ff" stroke-width="1.5" stroke-opacity="0.5"
+        filter="url(#glow)"/>
+
+  <!-- Line from Block 3 -->
+  <line class="conv-line conv-line-3" x1="318" y1="150" x2="290" y2="358"
+        stroke="#63d2ff" stroke-width="1.5" stroke-opacity="0.5"
+        filter="url(#glow)"/>
+
+  <!-- Line from Block 4 (far right) -->
+  <line class="conv-line conv-line-4" x1="428" y1="150" x2="332" y2="358"
+        stroke="#63d2ff" stroke-width="1.5" stroke-opacity="0.5"
+        filter="url(#glow)"/>
+
+  <!-- Moving particles on lines (animated dots) -->
+  <circle r="3" fill="#63d2ff" opacity="0.9" filter="url(#glow)">
+    <animateMotion dur="2.2s" repeatCount="indefinite" begin="0s">
+      <mpath href="#path1"/>
+    </animateMotion>
+  </circle>
+  <path id="path1" d="M92,150 L188,358" fill="none"/>
+
+  <circle r="3" fill="#63d2ff" opacity="0.9" filter="url(#glow)">
+    <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.5s">
+      <mpath href="#path2"/>
+    </animateMotion>
+  </circle>
+  <path id="path2" d="M190,150 L230,358" fill="none"/>
+
+  <circle r="3" fill="#63d2ff" opacity="0.9" filter="url(#glow)">
+    <animateMotion dur="2.3s" repeatCount="indefinite" begin="1s">
+      <mpath href="#path3"/>
+    </animateMotion>
+  </circle>
+  <path id="path3" d="M318,150 L290,358" fill="none"/>
+
+  <circle r="3" fill="#63d2ff" opacity="0.9" filter="url(#glow)">
+    <animateMotion dur="2.6s" repeatCount="indefinite" begin="0.3s">
+      <mpath href="#path4"/>
+    </animateMotion>
+  </circle>
+  <path id="path4" d="M428,150 L332,358" fill="none"/>
+
+  <!-- ============ FRAGMENTED BLOCKS (top) ============ -->
+
+  <!-- Block 1 -->
+  <g class="block-1" style="transform-origin: 92px 110px;">
+    <rect x="56" y="80" width="72" height="60" rx="6" ry="6"
+          fill="url(#blockGrad1)" stroke="#63d2ff" stroke-width="1.2" stroke-opacity="0.5"
+          filter="url(#glow)"/>
+    <!-- Inner detail lines -->
+    <line x1="68" y1="100" x2="116" y2="100" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.3"/>
+    <line x1="68" y1="112" x2="105" y2="112" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.2"/>
+    <line x1="68" y1="124" x2="100" y2="124" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.15"/>
+    <!-- Corner accent -->
+    <rect x="56" y="80" width="8" height="8" rx="2" fill="#63d2ff" fill-opacity="0.15"/>
+    <text x="92" y="148" class="block-label">SYS A</text>
+  </g>
+
+  <!-- Block 2 -->
+  <g class="block-2" style="transform-origin: 190px 110px;">
+    <rect x="154" y="80" width="72" height="60" rx="6" ry="6"
+          fill="url(#blockGrad2)" stroke="#63d2ff" stroke-width="1.2" stroke-opacity="0.45"
+          filter="url(#glow)"/>
+    <line x1="166" y1="100" x2="214" y2="100" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.3"/>
+    <line x1="166" y1="112" x2="210" y2="112" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.2"/>
+    <line x1="166" y1="124" x2="198" y2="124" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.15"/>
+    <rect x="154" y="80" width="8" height="8" rx="2" fill="#63d2ff" fill-opacity="0.12"/>
+    <text x="190" y="148" class="block-label">SYS B</text>
+  </g>
+
+  <!-- Block 3 -->
+  <g class="block-3" style="transform-origin: 318px 110px;">
+    <rect x="282" y="80" width="72" height="60" rx="6" ry="6"
+          fill="url(#blockGrad1)" stroke="#63d2ff" stroke-width="1.2" stroke-opacity="0.45"
+          filter="url(#glow)"/>
+    <line x1="294" y1="100" x2="342" y2="100" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.3"/>
+    <line x1="294" y1="112" x2="336" y2="112" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.2"/>
+    <line x1="294" y1="124" x2="330" y2="124" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.15"/>
+    <rect x="282" y="80" width="8" height="8" rx="2" fill="#63d2ff" fill-opacity="0.12"/>
+    <text x="318" y="148" class="block-label">SYS C</text>
+  </g>
+
+  <!-- Block 4 -->
+  <g class="block-4" style="transform-origin: 428px 110px;">
+    <rect x="392" y="80" width="72" height="60" rx="6" ry="6"
+          fill="url(#blockGrad2)" stroke="#63d2ff" stroke-width="1.2" stroke-opacity="0.4"
+          filter="url(#glow)"/>
+    <line x1="404" y1="100" x2="452" y2="100" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.3"/>
+    <line x1="404" y1="112" x2="448" y2="112" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.2"/>
+    <line x1="404" y1="124" x2="445" y2="124" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.15"/>
+    <rect x="392" y="80" width="8" height="8" rx="2" fill="#63d2ff" fill-opacity="0.1"/>
+    <text x="428" y="148" class="block-label">SYS D</text>
+  </g>
+
+  <!-- ============ FOUNDATION ============ -->
+  <g class="foundation" filter="url(#strongGlow)">
+    <!-- Foundation base shadow -->
+    <rect x="120" y="378" width="280" height="58" rx="10" ry="10"
+          fill="#000d1a" opacity="0.6"/>
+
+    <!-- Foundation body -->
+    <rect x="115" y="360" width="290" height="58" rx="10" ry="10"
+          fill="url(#foundationGrad)"
+          stroke="#63d2ff" stroke-width="1.8" stroke-opacity="0.8"/>
+
+    <!-- Foundation inner highlight -->
+    <rect x="115" y="360" width="290" height="14" rx="10" ry="10"
+          fill="#63d2ff" fill-opacity="0.04"/>
+
+    <!-- Internal grid texture on foundation -->
+    <line x1="175" y1="372" x2="175" y2="406" stroke="#63d2ff" stroke-width="0.4" stroke-opacity="0.2"/>
+    <line x1="235" y1="372" x2="235" y2="406" stroke="#63d2ff" stroke-width="0.4" stroke-opacity="0.2"/>
+    <line x1="295" y1="372" x2="295" y2="406" stroke="#63d2ff" stroke-width="0.4" stroke-opacity="0.2"/>
+    <line x1="355" y1="372" x2="355" y2="406" stroke="#63d2ff" stroke-width="0.4" stroke-opacity="0.2"/>
+    <line x1="115" y1="389" x2="405" y2="389" stroke="#63d2ff" stroke-width="0.4" stroke-opacity="0.15"/>
+  </g>
+
+  <!-- Foundation label -->
+  <text x="260" y="384" class="label-main" text-anchor="middle">Unified Data Foundation</text>
+  <text x="260" y="400" class="label-sub" text-anchor="middle">single source of truth</text>
+
+  <!-- Convergence point glow on foundation top edge -->
+  <ellipse cx="260" cy="360" rx="80" ry="8" fill="#63d2ff" fill-opacity="0.06"/>
+
+  <!-- ============ DECORATIVE ELEMENTS ============ -->
+
+  <!-- Horizontal scan line effect -->
+  <line x1="30" y1="260" x2="490" y2="260" stroke="#63d2ff" stroke-width="0.3" stroke-opacity="0.08"/>
+  <line x1="30" y1="220" x2="490" y2="220" stroke="#63d2ff" stroke-width="0.3" stroke-opacity="0.05"/>
+  <line x1="30" y1="300" x2="490" y2="300" stroke="#63d2ff" stroke-width="0.3" stroke-opacity="0.05"/>
+
+  <!-- Corner decorations -->
+  <path d="M30,30 L30,55 M30,30 L55,30" stroke="#63d2ff" stroke-width="1.2" stroke-opacity="0.3" fill="none"/>
+  <path d="M490,30 L490,55 M490,30 L465,30" stroke="#63d2ff" stroke-width="1.2" stroke-opacity="0.3" fill="none"/>
+  <path d="M30,490 L30,465 M30,490 L55,490" stroke="#63d2ff" stroke-width="1.2" stroke-opacity="0.3" fill="none"/>
+  <path d="M490,490 L490,465 M490,490 L465,490" stroke="#63d2ff" stroke-width="1.2" stroke-opacity="0.3" fill="none"/>
+
+  <!-- Top label -->
+  <text x="260" y="46" class="label-sub" text-anchor="middle">fragmented systems</text>
+  <text x="260" y="462" class="label-sub" text-anchor="middle">one unified platform</text>
+
+  <!-- Divider arrows between label areas -->
+  <line x1="200" y1="44" x2="140" y2="44" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.2"/>
+  <line x1="320" y1="44" x2="380" y2="44" stroke="#63d2ff" stroke-width="0.5" stroke-opacity="0.2"/>
+
+</svg>
+</div>
+</body>
+</html>

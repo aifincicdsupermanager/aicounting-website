@@ -31,29 +31,21 @@ const features = [
     },
 ];
 
-const Pricing = () => {
+type FeatureItem = { label: string; payroll: boolean; full: boolean };
+
+const PricingBeam = () => {
     const scrollToSignup = () => {
-        document.getElementById("signup")?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("signup-beam")?.scrollIntoView({ behavior: "smooth" });
     };
 
-    const renderFeature = (feature, type) => {
+    const renderFeature = (feature: FeatureItem, type: string) => {
         const available = type === "payroll" ? feature.payroll : feature.full;
-
         return (
             <li className="flex items-start gap-3">
-                <div className="w-4 h-4 flex items-center justify-center shrink-0 mt-1">
-                    {available && (
-                        <Check className="w-4 h-4 text-accent" />
-                    )}
+                <div className="w-4 h-4 flex items-center justify-center shrink-0 mt-0.5">
+                    {available && <Check className="w-4 h-4 text-[#00A58C]" />}
                 </div>
-
-                <span
-                    className={
-                        available
-                            ? "text-foreground/80 leading-relaxed"
-                            : "text-foreground/10 leading-relaxed"
-                    }
-                >
+                <span className={available ? "text-sm text-foreground/70 leading-relaxed" : "text-sm text-foreground/20 leading-relaxed"}>
                     {feature.label}
                 </span>
             </li>
@@ -61,58 +53,59 @@ const Pricing = () => {
     };
 
     return (
-        <section id="pricing" className="py-20 bg-muted/30">
-            <div className="container mx-auto px-4 text-center">
+        <section id="pricing-beam" className="py-32 bg-muted/40">
+            <div className="container mx-auto px-4">
                 <div className="max-w-5xl mx-auto">
 
-                    {/* Heading */}
-                    <h2 className="font-heading text-4xl md:text-5xl font-semibold text-primary mb-6">
-                        Simple, predictable pricing
-                    </h2>
-
-                    <div className="max-w-3xl mx-auto space-y-4 mb-12">
-                        <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
-                            Start with payroll. Expand into a complete system when you're ready.
-                        </p>
-
-                        <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
+                    {/* Section Heading */}
+                    <div className="text-center max-w-2xl mx-auto mb-4">
+                        <h2 className="font-heading text-3xl md:text-4xl font-semibold tracking-[-0.01em] leading-[1.15] text-primary mb-6">
+                            Simple, predictable pricing
+                        </h2>
+                        <p className="text-base md:text-lg text-foreground/70 leading-relaxed">
+                            Start with payroll. Expand into a complete system when you're ready. <br />
                             One subscription per business. No per-employee pricing. No add-ons.
                         </p>
                     </div>
 
-                    {/* Cards */}
-                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    {/* Free trial callout */}
+                    <div className="text-center mb-10">
+                        <p className="text-base font-semibold text-[#00A58C]">
+                            Your first month is free.
+                        </p>
+                    </div>
+
+                    {/* Pricing Cards */}
+                    <div className="grid md:grid-cols-2 gap-8 mb-16">
 
                         {/* Payroll Only */}
-                        <Card className="p-8 bg-card border border-primary/20 shadow-sm flex flex-col">
+                        <Card className="p-8 bg-background border border-border/40 flex flex-col">
 
-                            <h3 className="font-heading text-2xl font-semibold text-primary mb-2">
+                            {/* Teal accent line */}
+                            <div className="w-8 h-0.5 bg-[#00A58C] mb-5" />
+
+                            <h3 className="font-heading text-2xl font-semibold tracking-[-0.01em] text-primary mb-2">
                                 Payroll Only
                             </h3>
-
-                            <p className="text-foreground/70 mb-2">
+                            <p className="text-sm text-foreground/60 mb-2">
                                 Simple payroll with Beam super payments
                             </p>
-
-                            <p className="text-sm text-accent font-medium mb-4">
+                            <p className="text-sm text-[#00A58C] font-semibold mb-6">
                                 Upgrade to full platform for $20 more
                             </p>
-
-                            <p className="text-4xl font-bold text-primary mb-6">
-                                $10<span className="text-lg font-medium">/month</span>
+                            <p className="text-4xl font-bold text-primary mb-2">
+                                $10<span className="text-lg font-medium text-foreground/60">/month</span>
                             </p>
+                            <p className="text-sm text-foreground/40 mb-8">Billed annually.</p>
 
-                            {/* Features */}
                             <div className="text-left space-y-6 mb-8">
-
                                 {features
                                     .filter((group) => group.group === "Payroll")
                                     .map((group, idx) => (
                                         <div key={idx}>
-                                            <p className="text-sm uppercase tracking-wide text-muted-foreground mb-2">
+                                            <p className="text-xs font-semibold uppercase tracking-widest text-[#00A58C] mb-3">
                                                 {group.group}
                                             </p>
-
                                             <ul className="space-y-2">
                                                 {group.items.map((feature, i) => (
                                                     <li key={i}>{renderFeature(feature, "payroll")}</li>
@@ -120,121 +113,103 @@ const Pricing = () => {
                                             </ul>
                                         </div>
                                     ))}
-
                             </div>
 
-                            {/* CTA */}
                             <div className="mt-auto">
                                 <Button
+                                    size="lg"
                                     onClick={scrollToSignup}
-                                    className="w-full mb-3 bg-primary/90 hover:bg-primary"
+                                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base px-8 py-4 h-auto rounded-lg"
                                 >
-                                    Start with payroll
+                                    Start free
                                 </Button>
-
-                                <p className="text-sm text-foreground/60 mt-3">
-                                    No per-employee pricing. No hidden fees.
-                                </p>
                             </div>
+
                         </Card>
 
                         {/* Full Platform */}
-                        <Card className="p-8 bg-card border-2 border-accent relative flex flex-col">
+                        <Card className="p-8 bg-background border-2 border-[#00A58C] relative flex flex-col">
 
                             {/* Badge */}
-                            <div className="absolute top-4 right-4 text-sm bg-accent text-accent-foreground px-3 py-1 rounded-full">
+                            <div className="absolute top-4 right-4 text-xs font-semibold bg-[#00A58C] text-white px-3 py-1 rounded-full">
                                 Most Popular
                             </div>
 
-                            <h3 className="font-heading text-2xl font-semibold text-primary mb-2">
+                            {/* Teal accent line */}
+                            <div className="w-8 h-0.5 bg-[#00A58C] mb-5" />
+
+                            <h3 className="font-heading text-2xl font-semibold tracking-[-0.01em] text-primary mb-2">
                                 Full Platform
                             </h3>
-
-                            <p className="text-foreground/70 mb-2">
+                            <p className="text-sm text-foreground/60 mb-2">
                                 Payroll, accounting and compliance in one system
                             </p>
-
-                            <p className="text-sm text-accent font-medium mb-4">
+                            <p className="text-sm text-[#00A58C] font-semibold mb-6">
                                 Everything connected in one workflow
                             </p>
-
-                            <p className="text-4xl font-bold text-primary mb-6">
-                                $30<span className="text-lg font-medium">/month</span>
+                            <p className="text-4xl font-bold text-primary mb-2">
+                                $30<span className="text-lg font-medium text-foreground/60">/month</span>
                             </p>
+                            <p className="text-sm text-foreground/40 mb-8">Billed annually.</p>
 
-                            {/* Features */}
                             <div className="text-left space-y-6 mb-8">
-
                                 {features.map((group, idx) => (
                                     <div key={idx}>
-
-                                        <p className="text-sm uppercase tracking-wide text-muted-foreground mb-2">
+                                        <p className="text-xs font-semibold uppercase tracking-widest text-[#00A58C] mb-3">
                                             {group.group}
                                         </p>
-
                                         <ul className="space-y-2">
                                             {group.items.map((feature, i) => (
                                                 <li key={i}>{renderFeature(feature, "full")}</li>
                                             ))}
                                         </ul>
-
                                     </div>
                                 ))}
-
                             </div>
 
-                            {/* CTA */}
                             <div className="mt-auto">
                                 <Button
+                                    size="lg"
                                     onClick={scrollToSignup}
-                                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground mb-3"
+                                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base px-8 py-4 h-auto rounded-lg"
                                 >
-                                    Get full platform
+                                    Get started free
                                 </Button>
-
-                                <p className="text-sm text-foreground/60 mt-3">
-                                    One system. One price. No add-ons.
-                                </p>
                             </div>
+
                         </Card>
                     </div>
 
                     {/* Reinforcement */}
-                    <div className="max-w-4xl mx-auto mt-12 space-y-4 mb-12">
-                        <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
+                    <div className="text-center max-w-2xl mx-auto mb-16">
+                        <p className="text-base md:text-lg text-foreground/70 leading-relaxed">
                             Most businesses pay for payroll and accounting separately.
-                        </p>
-
-                        <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
                             AiCounting brings everything together into one system, with one simple monthly price.
                         </p>
                     </div>
 
-                    {/* Highlight */}
-                    <Card className="p-8 bg-card hover:shadow-lg transition-shadow mb-10">
-                        <p className="font-heading text-2xl md:text-3xl font-semibold text-primary">
+                    {/* Highlight statement */}
+                    <div className="text-center max-w-3xl mx-auto mb-16">
+                        <p className="font-heading text-2xl md:text-3xl font-semibold tracking-[-0.01em] text-primary">
                             Grow your team without growing your software costs.
                         </p>
-                    </Card>
+                    </div>
 
                     {/* Final CTA */}
-                    <div className="mt-12">
+                    <div className="text-center">
                         <Button
                             size="lg"
                             onClick={scrollToSignup}
-                            className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-lg px-8 py-6 h-auto"
+                            className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base px-8 py-4 h-auto rounded-lg"
                         >
-                            Get started
+                            Get started free
                         </Button>
-
-                        <p className="text-sm text-foreground/60 mt-6">
-                            No setup fees. Cancel anytime.
-                        </p>
                     </div>
+
                 </div>
             </div>
         </section>
     );
 };
 
-export default Pricing;
+export default PricingBeam;

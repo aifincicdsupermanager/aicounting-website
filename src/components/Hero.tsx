@@ -1,44 +1,104 @@
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-image.jpg";
 
 const Hero = () => {
-  const scrollToSignup = () => {
-    const element = document.getElementById("signup");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const scrollToId = (id: string) => {
+    const el = document.getElementById(id);
+    el?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      <div className="absolute inset-0 z-0">
-        <img
-          src={heroImage}
-          alt="Professional accounting team collaborating"
-          className="w-full h-full object-cover opacity-40"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background"></div>
-      </div>
+    <section className="relative overflow-hidden pt-40 pb-36">
 
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-semibold text-primary mb-6 leading-tight">
-            AiCounting: Accounting Intelligence For Smarter Decisions.
-          </h1>
+      {/* ── Premium gradient: Trust Blue → Teal ── */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(135deg, #0E2A47 0%, #0a3d54 40%, #00756A 75%, #00A58C 100%)",
+        }}
+      />
 
-          <p className="text-xl md:text-2xl text-foreground/80 mb-10 leading-relaxed max-w-3xl mx-auto">
-            More than accounting software, AiCounting automates compliance and transforms your accounting data into actionable insights that power smarter, faster decisions.
+      {/* ── Subtle noise texture for premium depth ── */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          backgroundSize: "200px 200px",
+        }}
+      />
+
+      {/* ── Subtle top-left radial highlight ── */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 60% at 15% 20%, rgba(255,255,255,0.04) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* ── Content ── */}
+      <div className="relative z-10 container mx-auto px-4">
+        <div className="max-w-3xl mx-auto text-center">
+
+          {/* Eyebrow */}
+          <p
+            className="mb-6 text-xs font-semibold uppercase tracking-[0.25em]"
+            style={{ color: "rgba(160, 235, 220, 0.90)" }}
+          >
+            Now in early access
           </p>
 
-          <Button
-            size="lg"
-            onClick={scrollToSignup}
-            className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-lg px-8 py-6 h-auto"
+          {/* Headline */}
+          <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.01em] leading-[1.08] text-white">
+            Capture transactions once.
+            <br />
+            Run your entire accounting workflow.
+          </h1>
+
+          {/* Subheadline */}
+          <p
+            className="mt-6 max-w-xl mx-auto text-base md:text-lg leading-relaxed"
+            style={{ color: "rgba(255,255,255,0.85)" }}
           >
-            Become an Early Partner
-          </Button>
+            Run bookkeeping, payroll, compliance and reporting from one
+            connected system — without reworking data between them. AiCounting
+            structures accounting data so every workflow runs on the same
+            information.
+          </p>
+
+          {/* CTAs */}
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button
+              size="lg"
+              onClick={() => scrollToId("core-workflows")}
+              className="bg-[#FF9900] hover:bg-[#FF9900]/90 text-white font-semibold text-base px-8 py-4 h-auto rounded-lg shadow-sm"
+            >
+              See what's included
+            </Button>
+
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => scrollToId("partner-program")}
+              className="font-semibold text-base px-8 py-4 h-auto rounded-lg bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
+            >
+              Apply for early access →
+            </Button>
+          </div>
+
+          {/* Microcopy */}
+          <p
+            className="mt-4 text-sm"
+            style={{ color: "rgba(255,255,255,0.55)" }}
+          >
+            Early partner pricing at $30/month.
+          </p>
+
         </div>
       </div>
+
     </section>
   );
 };

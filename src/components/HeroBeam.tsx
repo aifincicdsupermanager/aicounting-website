@@ -1,77 +1,86 @@
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-image.jpg";
 
-const Hero = () => {
-  const scrollToPricing = () => {
-    document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const scrollToHowItWorks = () => {
-    document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
+const HeroBeam = () => {
+  const scrollToId = (id: string) => {
+    const el = document.getElementById(id);
+    el?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Background */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={heroImage}
-          alt="Accounting and payroll workflow"
-          className="w-full h-full object-cover opacity-40"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background"></div>
-      </div>
+    <section className="relative overflow-hidden pt-40 pb-36">
 
-      {/* Content */}
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
+      {/* ── Premium gradient: Trust Blue → Teal ── */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(135deg, #0E2A47 0%, #0a3d54 40%, #00756A 75%, #00A58C 100%)",
+        }}
+      />
 
-          {/* ========================= */}
-          {/* HEADLINE */}
-          {/* ========================= */}
-          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-semibold text-primary mb-6 leading-tight">
-            Run payroll with Beam. <br />
-            Built into a complete accounting platform.
+      {/* ── Subtle noise texture for premium depth ── */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          backgroundSize: "200px 200px",
+        }}
+      />
+
+      {/* ── Subtle top-left radial highlight ── */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 60% at 15% 20%, rgba(255,255,255,0.04) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* ── Content ── */}
+      <div className="relative z-10 container mx-auto px-4">
+        <div className="max-w-3xl mx-auto text-center">
+
+          {/* Headline */}
+          <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.01em] leading-[1.08] text-white">
+            Run payroll with Beam. <br /> Built into a complete accounting platform.
           </h1>
 
-          {/* ========================= */}
-          {/* SUBHEADLINE */}
-          {/* ========================= */}
-          <p className="text-xl md:text-2xl text-foreground/80 mb-12 leading-relaxed max-w-4xl mx-auto">
-            Payroll with Beam Super, combined with a full accounting platform. <br />
+          {/* Subheadline */}
+          <p
+            className="mt-6 max-w-xl mx-auto text-base md:text-lg leading-relaxed"
+            style={{ color: "rgba(255,255,255,0.85)" }}
+          >
+            Payroll with Beam Super, combined with a full accounting platform.
             Manage payroll, compliance and reporting in one system.
           </p>
 
-          {/* ========================= */}
-          {/* CTA */}
-          {/* ========================= */}
-          <div className="flex flex-col items-center gap-4">
+          {/* CTAs */}
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button
+              size="lg"
+              onClick={() => scrollToId("pricing-beam")}
+              className="bg-[#FF9900] hover:bg-[#FF9900]/90 text-white font-semibold text-base px-8 py-4 h-auto rounded-lg shadow-sm"
+            >
+              View pricing
+            </Button>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Button
-                size="lg"
-                onClick={scrollToPricing}
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-lg px-8 py-6 h-auto"
-              >
-                View pricing
-              </Button>
-
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={scrollToHowItWorks}
-                className="font-semibold text-lg px-8 py-6 h-auto"
-              >
-                See how it works
-              </Button>
-            </div>
-
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => scrollToId("how-it-works-beam")}
+              className="font-semibold text-base px-8 py-4 h-auto rounded-lg bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
+            >
+              See how it works →
+            </Button>
           </div>
 
         </div>
       </div>
+
     </section>
   );
 };
 
-export default Hero;
+export default HeroBeam;

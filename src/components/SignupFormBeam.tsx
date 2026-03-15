@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 
-const SignupForm = () => {
+const SignupFormBeam = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -181,7 +181,7 @@ const SignupForm = () => {
   };
 
   return (
-    <section id="signup" className="py-32 bg-background">
+    <section id="signup-beam" className="py-32 bg-background">
       <div className="container mx-auto px-4">
 
         <div className="max-w-xl mx-auto">
@@ -192,8 +192,9 @@ const SignupForm = () => {
               Get started with AiCounting
             </h2>
 
-            <p className="text-base text-foreground/70 leading-relaxed">
-              Join a small group of early partners shaping what gets built next.
+            <p className="text-lg text-foreground/70 leading-relaxed">
+              Start running payroll with Beam and connect your accounting in one system.
+              From $10/month. No per-employee pricing.
             </p>
 
           </div>
@@ -266,7 +267,7 @@ const SignupForm = () => {
                 disabled={isSubmitting}
                 className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base px-8 py-4 h-auto rounded-lg shadow-sm"
               >
-                {isSubmitting ? "Submitting..." : "Apply for early access"}
+                {isSubmitting ? "Submitting..." : "Get started free"}
               </Button>
 
               <p className="text-xs text-foreground/40 text-center">
@@ -284,4 +285,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default SignupFormBeam;

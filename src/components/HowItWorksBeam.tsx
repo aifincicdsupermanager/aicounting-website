@@ -1,5 +1,3 @@
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 
 const steps = [
@@ -20,71 +18,64 @@ const steps = [
     },
 ];
 
-const HowItWorks = () => {
+const HowItWorksBeam = () => {
     const scrollToPricing = () => {
-        document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("pricing-beam")?.scrollIntoView({ behavior: "smooth" });
     };
 
     return (
-        <section id="how-it-works" className="py-20">
-            <div className="container mx-auto px-4 text-center">
-                <div className="max-w-6xl mx-auto">
+        <section id="how-it-works-beam" className="py-32 bg-background">
+            <div className="container mx-auto px-4">
+                <div className="max-w-7xl mx-auto">
 
-                    {/* Heading */}
-                    <h2 className="font-heading text-4xl md:text-5xl font-semibold text-primary mb-6">
-                        Run payroll. Everything stays in sync.
-                    </h2>
-
-                    {/* Intro */}
-                    <div className="max-w-3xl mx-auto text-center space-y-4 mb-12">
-                        <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
-                            Payroll is just one part of your workflow.
-                        </p>
-
-                        <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
-                            AiCounting connects payroll with accounting, reporting and compliance, <br />
-                            so everything works from the same data, in one connected platform.
+                    {/* Section Heading */}
+                    <div className="text-center max-w-2xl mx-auto mb-16">
+                        <h2 className="font-heading text-3xl md:text-4xl font-semibold tracking-[-0.01em] leading-[1.15] text-primary mb-6">
+                            Run payroll. Everything stays in sync.
+                        </h2>
+                        <p className="text-base md:text-lg text-foreground/70 leading-relaxed">
+                            Payroll is just one part of your workflow. AiCounting connects
+                            payroll with accounting, reporting and compliance — so everything
+                            works from the same data, in one connected platform.
                         </p>
                     </div>
 
                     {/* Steps */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
                         {steps.map((item, index) => (
-                            <Card
-                                key={index}
-                                className="p-6 bg-card hover:shadow-lg transition-shadow h-full"
-                            >
-                                <div className="flex items-start space-x-3 h-full">
-                                    <Check className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                                    <div className="text-left">
-                                        <h3 className="font-heading text-xl font-semibold text-primary mb-3">
-                                            {item.title}
-                                        </h3>
-                                        <p className="text-foreground/80 leading-relaxed">
-                                            {item.description}
-                                        </p>
-                                    </div>
+                            <div key={index} className="flex flex-col">
+
+                                {/* Check + title */}
+                                <div className="flex items-start gap-2 mb-2">
+                                    <Check className="w-4 h-4 text-[#00A58C] flex-shrink-0 mt-1" />
+                                    <h3 className="font-heading text-lg font-semibold tracking-[-0.01em] text-primary leading-snug">
+                                        {item.title}
+                                    </h3>
                                 </div>
-                            </Card>
+
+                                <p className="text-sm text-foreground/60 leading-relaxed pl-6">
+                                    {item.description}
+                                </p>
+
+                            </div>
                         ))}
                     </div>
 
-                    {/* Highlight */}
-                    <Card className="p-8 bg-card hover:shadow-lg transition-shadow mb-10">
-                        <p className="font-heading text-2xl md:text-3xl font-semibold text-primary">
+                    {/* Highlight statement */}
+                    <div className="text-center max-w-3xl mx-auto mb-16">
+                        <p className="font-heading text-2xl md:text-3xl font-semibold tracking-[-0.01em] text-primary">
                             Capture data once. Use it across your entire workflow.
                         </p>
-                    </Card>
+                    </div>
 
-                    {/* CTA */}
-                    <div className="flex justify-center">
-                        <Button
-                            size="lg"
+                    {/* Soft CTA */}
+                    <div className="text-center">
+                        <button
                             onClick={scrollToPricing}
-                            className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-lg px-8 py-6 h-auto"
+                            className="text-lg md:text-xl font-semibold text-[#00A58C] hover:text-[#00A58C]/70 transition-colors inline-flex items-center gap-1.5"
                         >
-                            View pricing plans
-                        </Button>
+                            See pricing plans →
+                        </button>
                     </div>
 
                 </div>
@@ -93,4 +84,4 @@ const HowItWorks = () => {
     );
 };
 
-export default HowItWorks;
+export default HowItWorksBeam;

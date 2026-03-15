@@ -1,7 +1,9 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Benefits from "@/components/Benefits";
-import Features from "@/components/Features";
+import Credibility from "@/components/Credibility";
+import CoreWorkflows from "@/components/CoreWorkflows";
+import CategoryDefinition from "@/components/CategoryDefinition";
+import PlatformCapabilities from "@/components/PlatformCapabilities";
 import PartnerProgram from "@/components/PartnerProgram";
 import SignupForm from "@/components/SignupForm";
 import Footer from "@/components/Footer";
@@ -12,8 +14,10 @@ const Index = () => {
       <Navbar />
       <main>
         <Hero />
-        <Benefits />
-        <Features />
+        <Credibility />
+        <CoreWorkflows />
+        <CategoryDefinition />
+        <PlatformCapabilities />
         <PartnerProgram />
         <SignupForm />
       </main>

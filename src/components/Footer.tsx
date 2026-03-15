@@ -9,80 +9,78 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-primary text-primary-foreground py-16">
+    <footer className="bg-primary text-primary-foreground py-20">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center space-y-10">
+        <div className="max-w-5xl mx-auto">
 
-          {/* Headline */}
-          <h2 className="font-heading text-3xl md:text-4xl font-semibold">
-            The future of accounting is connected.
-          </h2>
+          {/* Upper footer */}
+          <div className="text-center mb-16">
 
-          {/* Value Proposition */}
-          <div className="space-y-4 text-lg opacity-90 leading-relaxed">
-            <p>
-              AiCounting brings payroll, accounting and compliance into one system,
-              so your data flows automatically across your entire workflow.
+            {/* Closing headline */}
+            <h2 className="font-heading text-3xl md:text-4xl font-semibold tracking-[-0.01em] leading-[1.15] text-white mb-4">
+              The future of accounting is connected.
+            </h2>
+
+            {/* Closing line */}
+            <p className="text-base text-white/60 leading-relaxed max-w-xl mx-auto mb-8">
+              AiCounting is being built in the open, with the accountants
+              and businesses who want to shape it.
             </p>
 
-            <p>
-              Built by AiFin, we’re rethinking accounting from the ground up,
-              using structured data to automate compliance and unlock real-time insights.
-            </p>
-          </div>
-
-          {/* CTA */}
-          <div className="pt-6 space-y-4">
-            <h3 className="font-heading text-2xl font-semibold">
-              Get started with AiCounting
-            </h3>
-
-            <Button
-              size="lg"
+            {/* Outlined CTA */}
+            <button
               onClick={scrollToSignup}
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-8 py-6 h-auto"
+              className="px-6 py-2.5 rounded-lg border border-white/20
+                         text-sm font-semibold text-white
+                         hover:border-white/40 hover:bg-white/5
+                         transition-all"
             >
-              Get started
-            </Button>
+              Apply for early access →
+            </button>
 
-            <p className="text-sm opacity-70">
-              No setup fees. Cancel anytime.
-            </p>
           </div>
 
-          {/* Contact */}
-          <div className="pt-8 space-y-2 text-sm opacity-80">
-            <p>
-              📧{" "}
-              <a
-                href="mailto:support@aicounting.com.au"
-                className="underline hover:text-accent transition-colors"
-              >
-                support@aicounting.com.au
-              </a>
-            </p>
+          {/* Divider */}
+          <div className="border-t border-white/10 pt-8">
 
-            <div className="flex items-center justify-center gap-4">
-              <a
-                href="https://www.aifin.com.au"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-accent transition-colors"
-              >
-                AiFin
-              </a>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/40">
 
-              <span>|</span>
+              {/* Brand */}
+              <p>AiCounting by AiFin</p>
 
-              <a
-                href="https://www.linkedin.com/company/aifin-pl"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-accent transition-colors"
-              >
-                LinkedIn
-              </a>
+              {/* Links */}
+              <div className="flex items-center gap-6">
+                <a
+                  href="mailto:support@aicounting.com.au"
+                  className="hover:text-white/70 transition-colors"
+                >
+                  support@aicounting.com.au
+                </a>
+
+                <a
+                  href="https://www.aifin.com.au"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white/70 transition-colors"
+                >
+                  AiFin
+                </a>
+
+                <a
+                  href="https://www.linkedin.com/company/aifin-pl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white/70 transition-colors"
+                >
+                  LinkedIn
+                </a>
+              </div>
+
+              {/* Copyright */}
+              <p>© 2025 AiFin. All rights reserved.</p>
+
             </div>
+
           </div>
 
         </div>

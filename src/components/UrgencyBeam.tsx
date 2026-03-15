@@ -1,125 +1,112 @@
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { AlertCircle } from "lucide-react";
-import { Check } from "lucide-react";
+import { AlertCircle, Check } from "lucide-react";
 
-const Urgency = () => {
+const UrgencyBeam = () => {
     const scrollToHowItWorks = () => {
-        document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("how-it-works-beam")?.scrollIntoView({ behavior: "smooth" });
     };
 
     return (
-        <section id="urgency" className="py-20 bg-muted/30">
+        <section id="urgency" className="py-32 bg-muted/40">
             <div className="container mx-auto px-4">
 
-                {/* Heading */}
-                <div className="text-center mb-12">
-                    <h2 className="font-heading text-4xl md:text-5xl font-semibold text-primary mb-6">
+                {/* Section Heading */}
+                <div className="text-center max-w-xl mx-auto mb-16">
+                    <h2 className="font-heading text-3xl md:text-4xl font-semibold tracking-[-0.01em] leading-[1.15] text-primary mb-6">
                         Payroll is changing. Be ready.
                     </h2>
-
-                    <p className="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
-                        Super payments are becoming more frequent, and the ATO's clearing house is being phased out.
-                        The way payroll is processed is changing.
+                    <p className="text-base md:text-lg text-foreground/70 leading-relaxed">
+                        Super payments are becoming more frequent, and the ATO's clearing
+                        house is being phased out. The way payroll is processed is changing.
                     </p>
                 </div>
 
-                {/* Cards */}
-                <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                {/* Columns */}
+                <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
 
-                    {/* Change */}
-                    <Card className="p-6 bg-card hover:shadow-lg transition-shadow">
-                        <h3 className="font-heading text-xl font-semibold text-primary mb-3">
+                    {/* What's changing */}
+                    <div className="flex flex-col">
+                        <div className="w-8 h-0.5 bg-[#00A58C] mb-4" />
+                        <p className="text-xs font-semibold uppercase tracking-widest text-[#00A58C] mb-4">
                             What's changing
-                        </h3>
-
-                        <p className="text-foreground/80 leading-relaxed mb-4">
-                            From 1 July 2026, super must be paid at the same time as wages (Payday Super).
                         </p>
-
-                        <p className="text-foreground/80 leading-relaxed">
+                        <h3 className="font-heading text-lg font-semibold tracking-[-0.01em] text-primary mb-3">
+                            Payday Super arrives July 2026
+                        </h3>
+                        <p className="text-sm text-foreground/60 leading-relaxed mb-3">
+                            From 1 July 2026, super must be paid at the same time as wages.
+                        </p>
+                        <p className="text-sm text-foreground/60 leading-relaxed">
                             ATO's Small Business Superannuation Clearing House is being phased out.
                         </p>
-                    </Card>
+                    </div>
 
-                    {/* Impact */}
-                    <Card className="p-6 bg-card hover:shadow-lg transition-shadow">
-                        <h3 className="font-heading text-xl font-semibold text-primary mb-3">
+                    {/* What this means */}
+                    <div className="flex flex-col">
+                        <div className="w-8 h-0.5 bg-[#00A58C] mb-4" />
+                        <p className="text-xs font-semibold uppercase tracking-widest text-[#00A58C] mb-4">
                             What this means
+                        </p>
+                        <h3 className="font-heading text-lg font-semibold tracking-[-0.01em] text-primary mb-3">
+                            More complexity, less time
                         </h3>
-
-                        <ul className="space-y-3 text-foreground/80">
+                        <ul className="space-y-3 mb-3">
                             <li className="flex items-start gap-2">
-                                <AlertCircle className="w-4 h-4 text-amber-500 mt-1" />
-                                <span>Super payments every pay run</span>
+                                <AlertCircle className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                                <span className="text-sm text-foreground/60 leading-relaxed">Super payments every pay run</span>
                             </li>
                             <li className="flex items-start gap-2">
-                                <AlertCircle className="w-4 h-4 text-amber-500 mt-1" />
-                                <span>Less time to process payroll</span>
+                                <AlertCircle className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                                <span className="text-sm text-foreground/60 leading-relaxed">Less time to process payroll</span>
                             </li>
                             <li className="flex items-start gap-2">
-                                <AlertCircle className="w-4 h-4 text-amber-500 mt-1" />
-                                <span>Higher risk of errors and penalties</span>
+                                <AlertCircle className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                                <span className="text-sm text-foreground/60 leading-relaxed">Higher risk of errors and penalties</span>
                             </li>
                         </ul>
-
-                        <p className="mt-4 text-foreground/80">
+                        <p className="text-sm text-foreground/60 leading-relaxed">
                             Manual processes and disconnected systems won't keep up.
                         </p>
-                    </Card>
+                    </div>
 
-                    {/* Solution */}
-                    <Card className="p-6 bg-card hover:shadow-lg transition-shadow">
-                        <h3 className="font-heading text-xl font-semibold text-primary mb-3">
+                    {/* How AiCounting helps */}
+                    <div className="flex flex-col">
+                        <div className="w-8 h-0.5 bg-[#00A58C] mb-4" />
+                        <p className="text-xs font-semibold uppercase tracking-widest text-[#00A58C] mb-4">
                             How AiCounting helps
+                        </p>
+                        <h3 className="font-heading text-lg font-semibold tracking-[-0.01em] text-primary mb-3">
+                            Built for what's coming
                         </h3>
-
-                        <ul className="space-y-3 text-foreground/80">
+                        <ul className="space-y-3">
                             <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent mt-1" />
-                                <span>Process super via Beam</span>
+                                <Check className="w-4 h-4 text-[#00A58C] mt-0.5 flex-shrink-0" />
+                                <span className="text-sm text-foreground/60 leading-relaxed">Process super via Beam</span>
                             </li>
                             <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent mt-1" />
-                                <span>Keep payroll and accounting in sync</span>
+                                <Check className="w-4 h-4 text-[#00A58C] mt-0.5 flex-shrink-0" />
+                                <span className="text-sm text-foreground/60 leading-relaxed">Keep payroll and accounting in sync</span>
                             </li>
                             <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent mt-1" />
-                                <span>Stay compliant as requirements change</span>
+                                <Check className="w-4 h-4 text-[#00A58C] mt-0.5 flex-shrink-0" />
+                                <span className="text-sm text-foreground/60 leading-relaxed">Stay compliant as requirements change</span>
                             </li>
                         </ul>
-
-                        <p className="mt-4 text-foreground/80">
-                            Everything in one place.
-                        </p>
-                    </Card>
+                    </div>
 
                 </div>
 
-                {/* Transition */}
-                <div className="max-w-4xl mx-auto mt-16 space-y-4 text-center">
-                    <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
-                        Most businesses will need to rethink how payroll is managed.
+                {/* Transition + soft CTA */}
+                <div className="text-center max-w-2xl mx-auto">
+                    <p className="text-lg text-foreground/70 leading-relaxed mb-16">
+                        Connected systems will become essential. <br />
+                        AiCounting is built for exactly this.
                     </p>
-
-                    <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
-                        Connected systems will become essential.
-                    </p>
-
-                    <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
-                        See how AiCounting connects payroll, accounting and compliance, in one workflow.
-                    </p>
-                </div>
-
-                {/* CTA */}
-                <div className="flex justify-center mt-8">
-                    <Button
-                        size="lg"
+                    <button
                         onClick={scrollToHowItWorks}
-                        className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-lg px-8 py-6 h-auto"
+                        className="text-lg md:text-xl font-semibold text-[#00A58C] hover:text-[#00A58C]/70 transition-colors inline-flex items-center gap-1.5"
                     >
-                        See how it works
-                    </Button>
+                        See how it all connects →
+                    </button>
                 </div>
 
             </div>
@@ -127,4 +114,4 @@ const Urgency = () => {
     );
 };
 
-export default Urgency;
+export default UrgencyBeam;

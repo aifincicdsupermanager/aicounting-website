@@ -12,7 +12,7 @@ const Credibility = () => {
                 <div className="max-w-5xl mx-auto text-center">
 
                     <p className="font-heading text-3xl md:text-4xl font-semibold tracking-[-0.01em] leading-[1.2] text-white/90">
-                        Built by accountants and financial technology specialists.
+                        Built by accountants and fintech specialists.
                     </p>
 
                 </div>

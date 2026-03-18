@@ -4,6 +4,7 @@ import Credibility from "@/components/Credibility";
 import CoreWorkflows from "@/components/CoreWorkflows";
 import CategoryDefinition from "@/components/CategoryDefinition";
 import PlatformCapabilities from "@/components/PlatformCapabilities";
+import AiReadiness from "@/components/AiReadiness";
 import PartnerProgram from "@/components/PartnerProgram";
 import SignupForm from "@/components/SignupForm";
 import Footer from "@/components/Footer";
@@ -18,6 +19,7 @@ const Index = () => {
         <CoreWorkflows />
         <CategoryDefinition />
         <PlatformCapabilities />
+        <AiReadiness />
         <PartnerProgram />
         <SignupForm />
       </main>

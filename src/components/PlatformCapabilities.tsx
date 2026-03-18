@@ -51,7 +51,7 @@ const PlatformCapabilities = () => {
                 {/* Section Heading */}
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <h2 className="font-heading text-3xl md:text-4xl font-semibold tracking-[-0.01em] leading-[1.15] text-primary">
-                        A new kind of accounting platform.
+                        Meet the data-first accounting platform.
                     </h2>
                 </div>
 

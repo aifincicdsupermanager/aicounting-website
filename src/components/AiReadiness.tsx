@@ -51,7 +51,7 @@ const AiReadiness = () => {
                 {/* Closing statement */}
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <p className="font-heading text-2xl md:text-3xl font-semibold tracking-[-0.01em] leading-[1.15] text-primary">
-                        AiCounting is the data foundation that makes all of it possible.
+                        AiCounting is the data foundation that makes all of this possible.
                     </p>
                 </div>
 

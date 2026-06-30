@@ -25,8 +25,8 @@
 }
 
 .privacy-doc .doc-logo img {
-    height: 36px;
-    width: auto;
+    width: 140px;
+    height: auto;
 }
 
 .privacy-doc .doc-title {
@@ -35,6 +35,15 @@
     font-weight: 700;
     color: #1b365d;
     margin-bottom: 4px;
+    letter-spacing: 0.3px;
+}
+
+.privacy-doc .doc-subtitle {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #d12043;
+    margin-bottom: 8px;
     letter-spacing: 0.3px;
 }
 

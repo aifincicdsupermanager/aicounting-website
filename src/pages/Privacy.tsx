@@ -1,6 +1,5 @@
 import './privacy.css';
-import logoIcon from "@/assets/logo-icon.png";
-import logoWordmark from "@/assets/logo-wordmark.png";
+import logo from "@/assets/logo.png";
 
 const Privacy = () => {
   return (
@@ -9,15 +8,13 @@ const Privacy = () => {
 
         {/* Logo */}
         <div className="doc-logo">
-          <img src={logoIcon} alt="" style={{ height: '36px', marginRight: '8px', verticalAlign: 'middle' }} />
-          <img src={logoWordmark} alt="AiCounting" style={{ height: '36px', verticalAlign: 'middle' }} />
+          <img src={logo} alt="AiCounting" />
         </div>
 
         {/* Title */}
         <div className="doc-title">AiFin PTY LTD</div>
-        <div className="doc-meta">
-          Privacy Statement &nbsp;|&nbsp; Last updated: 30 June 2026 &nbsp;|&nbsp; ACN 637 599 154
-        </div>
+        <div className="doc-subtitle">PRIVACY STATEMENT</div>
+        <div className="doc-meta">Last updated: 30 June 2026 &nbsp;|&nbsp; ACN 637 599 154</div>
 
         {/* 1 */}
         <p className="section-heading">1. Who we are</p>

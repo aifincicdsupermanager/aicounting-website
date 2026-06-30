@@ -74,6 +74,13 @@ const Footer = () => {
                 >
                   LinkedIn
                 </a>
+
+                <a
+                  href="/privacy"
+                  className="hover:text-white/70 transition-colors"
+                >
+                  Privacy Statement
+                </a>
               </div>
 
               {/* Copyright */}
